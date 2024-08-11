@@ -50,7 +50,7 @@ res.json(result)
  }
 });
 
-router.get('/:id/posts', validateUserId, async (req, res) => {
+router.get('/:id/posts', validateUserId, async (req, res, next) => {
   try {
     await User.remove(req.params.id)
     res.json(req.user)
@@ -76,7 +76,7 @@ router.post(
       }
 });
 
-router.use((err, req, res, next) => {
+router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
     customMessage: 'a message',
     message: err.message,
