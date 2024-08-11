@@ -43,18 +43,22 @@ User.update*(req.params.id, { name: req.name })
 
 router.delete('/:id', validateUserId, async (req, res, next) => {
  try {
-  await User.remove(req.params.id)
-  res.json(req.user)
+const result = await User.getUserPosts(req.params.id)
+res.json(result)
  } catch (err) {
   next(err)
  }
 });
 
-router.get('/:id/posts', validateUserId, (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
-  console.log(req.user)
-});
+router.get('/:id/posts', validateUserId, async (req, res) => {
+  try {
+    await User.remove(req.params.id)
+    res.json(req.user)
+   } catch (err) {
+    next(err)
+   }
+  });
+
 
 router.post('/:id/posts', validateUserId, validatePost,
    (req, res) => {
