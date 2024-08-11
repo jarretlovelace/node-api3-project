@@ -8,6 +8,10 @@ module.exports = {
   remove,
 };
 
+function getByUserId(userId) {
+  return db('posts').where('user_id', userId);
+}
+
 function get() {
   return db('posts');
 }
@@ -21,9 +25,7 @@ function getById(id) {
 function insert(post) {
   return db('posts')
     .insert(post)
-    .then(ids => {
-      return getById(ids[0]);
-    });
+    .then(([id]) => getById(id));
 }
 
 function update(id, changes) {
@@ -36,4 +38,10 @@ function remove(id) {
   return db('posts')
     .where('id', id)
     .del();
+}
+
+module.exports = {
+  getByUserId,
+  insert, 
+  getById, 
 }
